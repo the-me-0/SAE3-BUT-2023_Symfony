@@ -1,0 +1,30 @@
+{# templates/bundles/TwigBundle/Exception/error404.html.twig #}
+{% extends 'base.html.twig' %}
+
+
+{% block title %}Erreur 403{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="/assets/css/error.css">
+<link href="https://fonts.googleapis.com/css2?family=Michroma&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+
+    <div class="wrapper">
+
+        <div class="element">
+            <h1>Vous êtes perdu ?</h1>
+
+            <p>
+                Vous n'avez pas les permissions nécessaires pour accéder à ce contenu. Vérifiez l'url ou <a href="{{ path('facility_list') }}">retournez à l'accueil</a>.
+            </p>
+        </div>
+
+        <div class="element" id="error-number">
+            <h1>{{ status_code }}</h1>
+        </div>
+
+    </div>
+
+{% endblock %}

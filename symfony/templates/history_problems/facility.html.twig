@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Batiment - Nouveau{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="/assets/css/history.css">
+    <link rel="stylesheet" href="/assets/css/dashboard_base.css">
+    <link rel="stylesheet" href="/assets/css/dashboard_edit.css">
+{% endblock %}
+
+{#{% set page_title = 'Problèmes - Batiment ' .  {{facility.getName()}}  %} #}
+
+{% block body %}
+ <p class="route">
+    <a href='/historique_probleme'> Historique des problemes </a> >
+    <a href='/batiment-{{facility.id}}/historique_probleme'> Historique problemes {{facility.name}} </a> >
+</p>
+
+<div class="nav_buttons">
+    {% if is_granted('ROLE_SV') %}
+        <a class='list_button' href='/batiment-{{facility.id}}/'/> Quitter historique des problemes </a>
+    {% endif %}
+</div>
+<div class="content">
+    <div class="row_container">
+        <div class="score column_container">
+            <div class="column_content">
+                <div class="facility_name">
+                    <h1> {{ facility.getName() }} </h1>
+                </div>
+                <div class="score_number">
+                    <h2> {{ score }} / 100 </h2>
+                </div>
+            </div>
+        </div>
+        <div class="objective column_container">
+            <div class="column_content">
+                <h1 class="dashboard_title">Objectifs de la salle</h1>
+                <div class="objective_info">
+                    <div class="objective_div">
+                        <img id="temp_img" src="/assets/images/weather/temp.png">
+                        <p id="temp_objective" class="information_text">{{objective.temperature}} °C</p>
+                    </div>
+                    <div class="objective_div">
+                        <img id="hum_img" src="/assets/images/weather/hum2.png">
+                        <p id="hum_objective" class="information_text">{{objective.humidity}} %</p>
+                    </div>
+                    <div class="objective_div">
+                        <img id="co2_img" src="/assets/images/weather/co2.png">
+                        <p id="co2_objective" class="information_text"> {{objective.eCO2}} ppm</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="column_container liste_rooms">
+        <div class="column_content">
+            <div class="information_history">
+                <img class="info_icon_history" src="/assets/images/information.png">
+                <p class="info_text_history">
+                    Le score permet de savoir le taux de problème dans la salle. Plus ce nombre est élevé plus il y a eu de problèmes.
+                </p>
+            </div>
+            <div class="elements">
+                {# for each array in facilities_data#}
+                {% for data in rooms_data %}
+                    {% if data["score"] <= 25 %}
+                        <a class="element green" href="/batiment-{{data["room"].getId()}}/salle-{{data["room"].getId()}}/historique_probleme">
+                    {% elseif data["score"] <= 50 %}
+                        <a class="element yellow" href="/batiment-{{data["room"].getId()}}/salle-{{data["room"].getId()}}/historique_probleme">
+                    {% elseif data["score"] <= 75 %}
+                        <a class="element orange" href="/batiment-{{data["room"].getId()}}/salle-{{data["room"].getId()}}/historique_probleme">
+                    {% elseif data["score"] <= 100 %}
+                        <a class="element red" href="/batiment-{{data["room"].getId()}}/salle-{{data["room"].getId()}}/historique_probleme">
+                    {% else %}
+                        <a class="element white" href="/batiment-{{data["room"].getId()}}/salle-{{data["room"].getId()}}/historique_probleme">
+                    {% endif %}
+                            <div class="info_room">
+                                <div class="facility_name">
+                                    <h2> {{ facility.getName() }} </h2>
+                                </div>
+                                <div class="room_name">
+                                    <h3> {{ data["room"].getName() }} </h3>
+                                </div>
+                            </div>
+                            <div class="score">
+                                <p> {{ data["score"] }} / 100</p>
+                            </div>
+                        </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

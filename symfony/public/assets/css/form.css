@@ -1,0 +1,97 @@
+*{
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+    font-size: 1vw;
+    text-decoration: none;
+
+}
+
+.form_container{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.form a{
+    text-decoration: none;
+}
+
+.form h6{
+    font-size: 1.5vw;
+    margin-bottom: 1.3vw;
+}
+
+.form select{
+    height: 3vw;
+}
+
+.form input, .form select {
+    border-top-style: hidden;
+    border-right-style: hidden;
+    border-left-style: hidden;
+    border-bottom: 3px solid #555;
+
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+
+    margin: 1vw;
+    padding: 0.7vw;
+
+    background-color: rgba(50,50,50 ,0.05);
+
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+    font-size: 1vw;
+
+}
+
+#room_owner {
+    width:15vw;
+    height:7vw;
+}
+
+.objectiveForm .row input {
+    max-width: 6ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+.objective div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+
+.valider_sup{
+    margin-top: 1vw;
+    background-color: #dd4b2e;
+    color: #1E1E1E;
+    padding: 1vw 3vw 1vw 3vw;
+    border-radius: 10px;
+    font-size: 1vw;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+}
+
+

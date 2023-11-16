@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SA - Edition{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="/assets/css/dashboard_base.css">
+    <link rel="stylesheet" href="/assets/css/dashboard_edit.css">
+    <link rel="stylesheet" href="/assets/css/form.css">
+    <link rel="stylesheet" href="/assets/css/popup.css">
+{% endblock %}
+
+{% block body %}
+<p class="route">
+<a href='/liste_batiments'> Liste des bâtiments </a> >
+<a href='/batiment-{{facility.id}}/edit'> Batiment {{facility.name}} </a> >
+<a href='/batiment-{{facility.id}}/salle-{{room.id}}/edit'> {{room.name}} </a> >
+<a href='/batiment-{{facility.id}}/salle-{{room.id}}/capteur-{{sensor.id}}/edit'> {{sensor.num}} </a> >
+</p>
+
+<div class="content">
+    <div id="editSensor" class="row_container">
+        <div id="color_rectangle" class="rectangle">
+            <div class="column_content">
+                <h1 class="dashboard_title">Informations</h1>
+                    <div>     
+                        {{ form_start(form) }}
+                        <div class="form">
+                            <div class="row">
+                                {{ form_label(form.num, 'Numéro') }}
+                                {{ form_widget(form.num) }}
+                            </div>
+                            <div class="row">
+                                {{ form_label(form.description, 'Description') }}
+                                {{ form_widget(form.description) }}
+                            </div>
+                            <div class="row">
+                                {{ form_label(form.tag, 'Tag') }}
+                                {{ form_widget(form.tag) }}
+                            </div>
+                            <button type="submit" class="submitBtn" onclick="this.classList.add('submitBtn--loading')">
+                                <a class="submitBtn__text">Valider</a>
+                            </button>
+                            <a class='delete_button' id="dltBtn" onclick="openPopUp()">Supprimer</a>
+                        </div>
+                    {{ form_end(form) }}
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="modal">
+        <div class="mask"></div>
+        <div class="container auto">
+            <div class="form_container">
+                <div class="form">
+                    <h6>Voulez-vous vraiment supprimer ce système d'acquisition ?</h6>
+                    <center><p id="message">En cliquant sur "Supprimer" vous supprimerez définitivement le système d'acquisitions</p></center>
+                    <a href="/batiment-{{ facility.id }}/salle-{{ room.id }}/sensor-{{ sensor.id }}/supprimer-sa">
+                        <div class="valider">
+                            <p>Supprimer</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <a href="#" onclick="closePopUp()" class="close">&times;</a>
+        </div>
+    </div>
+    <script type="text/javascript" src="/assets/js/popup.js"></script>
+    </div>
+{% endblock %}

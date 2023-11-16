@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Meteo{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="/assets/css/dashboard_base.css">
+    <link rel="stylesheet" href="/assets/css/weather.css">
+{% endblock %}
+
+{% block body %}
+    {% set trans_day_hash = { "Monday": "Lundi", "Tuesday": "Mardi", "Wednesday": "Mercredi", "Thursday": "Jeudi", "Friday": "Vendredi", "Saturday": "Samedi", "Sunday": "Dimanche"} %}
+    {% set trans_month_hash = { "January": "Janvier", "February": "Février", "March": "Mars", "April": "Avril","May": "Mai", "June": "Juin", "July": "Juillet", "June": "Juin", "July": "Juillet", "August": "Août", "Spetember": "Septembre", "October": "Octobre", "November": "Novembre", "December": "Décembre"} %}
+    <script src="/assets/js/weather.js"></script>
+    <div class="content">
+        <div class="weather_container">
+            <div id="color_rectangle" class="rectangle">
+                <div class="column_content">
+                    <h1 id="title">Conditions météo</h1>
+                    <h6 id="city">La Rochelle</h6>
+                    <h6 id="date">{{ trans_day_hash["now"|date('l')]}} {{ "now"|date('j') }} {{ trans_month_hash["now"|date('F')]}} {{ "now"|date('Y') }}</h6>
+                    {% if statusCode == 200 %}
+                        {% if data.weather[0].main == 'Rain' %}
+                            <div class="icon rainy">
+                                <div class="cloud"></div>
+                                <div class="rain"></div>
+                            </div>
+                        {% elseif data.weather[0].main == 'Clear' %}
+                            <div class="icon sunny">
+                                <div class="sun">
+                                    <div class="rays"></div>
+                                </div>
+                            </div>
+                        {% elseif data.weather[0].main == 'Clouds' %}
+                            <div class="icon cloudy">
+                                <div class="cloud"></div>
+                                <div class="cloud"></div>
+                            </div>
+                        {% elseif data.weather[0].main == 'Thunderstorm' %}
+                            <div class="icon thunder-storm">
+                                <div class="cloud"></div>
+                                <div class="lightning">
+                                    <div class="bolt"></div>
+                                    <div class="bolt"></div>
+                                </div>
+                            </div>
+                        {% elseif data.weather[0].main == 'Snow' %}
+                            <div class="icon flurries">
+                                <div class="cloud"></div>
+                                <div class="snow">
+                                    <div class="flake"></div>
+                                    <div class="flake"></div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="icon cloudy">
+                                <div class="cloud"></div>
+                                <div class="cloud"></div>
+                            </div>
+                        {% endif %}
+                        <div id="temp_content">
+                            <p id="temp">{{ data.main.temp }}°</p>
+                            <div id="forecast">
+                                <div id="min">
+                                    <p class="indice">{{ data.main.temp_min }}°</p>
+                                    <p class="indice">min</p>
+                                </div>
+                                <div id="max">
+                                    <p class="indice">{{ data.main.temp_max }}°</p>
+                                    <p class="indice">max</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="hum">
+                            <div class="info_data">
+                                <img src="/assets/images/weather/hum1.png">
+                                <p>{{ data.main.humidity }}% d'humidité</p>
+                            </div>
+                            <div class="info_data">
+                                <img src="/assets/images/weather/co2.png">
+                                <p>{{ gaz.list[0].components.co }} ppm</p>
+                            </div>
+                        </div>
+                        <div id="air_quality">
+                            <p>Qualité de l'air</p>
+                            {% if gaz.list[0].main.aqi == 1 %}
+                                <div style="background:#88C03C;">BON</div>
+                            {% elseif gaz.list[0].main.aqi == 2 %}
+                                <div style="background:#EEBE1C;">MOYEN</div>
+                            {% elseif gaz.list[0].main.aqi == 3 %}
+                                <div style="background:#F27E2F;">DÉGRADÉ</div>
+                            {% elseif gaz.list[0].main.aqi == 4 %}
+                                <div style="background:#E84B4F;">MAUVAIS</div>
+                            {% elseif gaz.list[0].main.aqi == 5 %}
+                                <div style="background:#895D9D;">TRÈS MAUVAIS</div>
+                            {% else %}
+                                <p>Aucune information</p>
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        <H6>Météo indisponible</H6>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

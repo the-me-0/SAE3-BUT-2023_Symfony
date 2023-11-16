@@ -1,0 +1,87 @@
+*{
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+}
+
+body{
+    width: 100%;
+    overflow: hidden;
+}
+
+.form>label{
+    margin-bottom: 10px;
+    margin-top: 30px;
+}
+
+.from>button{
+    width: 30px;
+}
+
+.form{
+    position: absolute; /* postulat de départ */
+    top: 50%; left: 50%; /* à 50%/50% du parent référent */
+    transform: translate(-50%, -50%);
+    padding: 2.5em 4em 2.5em;
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    flex-direction: column;
+    border-radius: 10px;
+    justify-content: center;
+}
+
+.btn-lg{
+    margin-top: 2em;
+    width: 60%;
+    height: 30px;
+    border-radius: 10px;
+    transition:all 0.3s ease 0s;
+    border: none;
+    background-color: #31AF90;
+    cursor: pointer;
+}
+
+.btn-lg:hover{
+    transform: scale(1.05);
+    background-position: -60px;
+    box-shadow: 0 3px 6px rgb(153, 153, 153), 0 3px 6px;
+}
+
+input{
+    padding: 0.6vw;
+    border-radius: 10px;
+    background-color: #e0e0e0;
+    border: 1px solid #969696;
+}
+
+.registerBtn{
+    color: black;
+    font-size: 0.8vw;
+    margin-top: 1em;
+}
+
+.registerBtn:hover{
+    text-decoration: underline;
+}
+
+.content {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+.accept{
+    margin-right: 1em;
+}
+
+.infos div li{
+    list-style: none;
+}
+
+.agree{
+    margin-top: 1.5em;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}

@@ -1,0 +1,156 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Batiment{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="/assets/css/dashboard_base.css">
+    <link rel="stylesheet" href="/assets/css/dashboard_edit.css">
+{% endblock %}
+
+
+{% block body %}
+<script src="/assets/js/facility.js"></script>
+<div>
+    <p class="route">
+    <a href='/liste_batiments'> Liste des bâtiments </a> >
+    <a href='/batiment-{{facility.id}}'> Batiment {{facility.name}} </a>
+    </p>
+    <div class="nav_buttons">
+        {% if is_granted('ROLE_EDIT') %}
+            <a class='edit_button' href='/batiment-{{facility.id}}/edit'/>Modifier</a>
+        {% endif %}
+    </div>
+</div>
+
+<div class="content">
+{# First part #}
+    <div id="informations" class="row_container">
+        <div class="column_container facility_information_container">
+            <div class="column_content facility_information_content">
+                <h1 class="dashboard_title">Informations</h1>
+                <div class="info">
+                    <div class="information_div">
+                        <p class="information_text">{{facility.sector}}</p>
+                    </div>
+                    <img id="facility_img" src="/assets/images/facility.png">
+                    <div class="information_div">
+                        <p class="information_text">{{facility.name}}</p>
+                    </div>
+                    <div class="information_div">
+                        {% if rooms|length > 1 %}
+                            <p class="information_text">{{rooms|length}} salles</p>
+                        {% else %}
+                            <p class="information_text">{{rooms|length}} salle</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column_container facility_information_container">
+            <div class="column_content facility_information_content">
+                <h1 class="dashboard_title">Objectifs des salles du bâtiment</h1>
+                    <div class="info">
+                        <div class="objective_div">
+                            <img id="co2_img" src="/assets/images/weather/co2.png">
+                            <p class="information_text"> {{objective.eCO2}} ppm</p>
+                        </div>
+                        <div class="content_info">
+                            <div class="objective_div">
+                                <img id="temp_img" src="/assets/images/weather/temp.png">
+                                <p class="information_text">{{objective.temperature}} °C</p>
+                            </div>
+                            <div class="objective_div">
+                                <img id="hum_img" src="/assets/images/weather/hum2.png">
+                                <p class="information_text">{{objective.humidity}} %</p>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <div class="column_container facility_information_container">
+            <div class="column_content facility_information_content">
+                <img id="alert_icon" src="assets/images/alert1.png">
+                <h1 class="dashboard_title">Zone d'alertes</h1>
+                <div id="facility_alerts" class = "alerts">
+                    <!-- for room in rooms_in_alert, display it -->
+                    {% if rooms|length == 0 %}
+                        <p> Pas d'alertes, aucune salle </p>
+                    {% else %}
+                        <div class="alert_content">
+                            {% if rooms_in_alert|length != 0 %}
+                                <table>
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Salle</th>
+                                        <th scope="col">Nombre d'alertes</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for room in rooms_in_alert %}
+                                            <tr>
+                                                <td>{{ room.name }}</td>
+                                                <td>{{ room.alerts|length }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            {% else %}
+                                <p>Aucune alerte dans ce bâtiment</p>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{# Second part #}
+    <div class="column_container">
+        <div class="column_content">
+            <div class="roomNavigation">
+                <h1 id="roomListTitle" >Liste des salles</h1>
+                <div class="stages">
+                    <a class="stageButton" onclick="displayAll(Array({{ stages|join(',') }}));"><div class="stage showAllButton" id="show_all">Afficher tout</div></a>
+                {% for stage in stages %}
+                    {% if stage == 0 %}
+                        <a href="#{{ stage }}" class="stageButton" onclick="display(Array({{ stages|join(',') }}), {{ stage }});"><div class="stage" id="floor_{{ stage }}">Rez-de-chaussée</div></a>
+                    {% else %}
+                        <a href="#{{ stage }}" class="stageButton" onclick="display(Array({{ stages|join(',') }}), {{ stage }});"><div class="stage" id="floor_{{ stage }}">Étage {{ stage }}</div></a>
+                    {%  endif %}
+                {% endfor %}
+                </div>
+            </div>
+            <div class="roomContainer">
+                <div class="columnStage">
+                    {% for stage in stages %}
+                    <div class="numStage" id="{{stage}}">
+                        {% if stage == 0 %}
+                            Rez-de-chaussée
+                        {% else %}
+                            Étage {{stage}}
+                        {% endif %}
+                        <div class="contentStage">
+                            <div class="stageContent">
+                                    {% for room in rooms %}
+                                        {% if room.floor == stage %}
+                                            <div class="tileClickable tileClickableClickable">
+                                                <a href="/batiment-{{facility.id}}/salle-{{room.id}}" class="btn">
+                                                    {{room.name}}
+                                                </a>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                        <div class="row">
+                            <h2>Aucune salle à afficher.</h2>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

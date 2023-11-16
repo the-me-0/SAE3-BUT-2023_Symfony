@@ -1,0 +1,539 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Salle{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="/assets/css/dashboard_base.css">
+    <link rel="stylesheet" href="/assets/css/weather.css">
+    <link rel="stylesheet" href="/assets/css/chart.css">
+    <link rel="stylesheet" href="/assets/css/dashboard_edit.css">
+{% endblock %}
+
+{% block body %}
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3.0.1/build/global/luxon.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.2.0/dist/chartjs-adapter-luxon.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3.0.1/build/global/luxon.min.js"></script>
+    <script src="/assets/js/chart.js"></script>
+
+    {% set trans_day_hash = { "Monday": "Lundi", "Tuesday": "Mardi", "Wednesday": "Mercredi", "Thursday": "Jeudi", "Friday": "Vendredi", "Saturday": "Samedi", "Sunday": "Dimanche"} %}
+    {% set trans_month_hash = { "January": "Janvier", "February": "Février", "March": "Mars", "April": "Avril","May": "Mai", "June": "Juin", "July": "Juillet", "June": "Juin", "July": "Juillet", "August": "Août", "Spetember": "Septembre", "October": "Octobre", "November": "Novembre", "December": "Décembre"} %}
+
+    <script src="/assets/js/weather.js"></script>
+    <p class="route">
+        <a href='/liste_batiments'> Liste des bâtiments </a> >
+        <a href='/batiment-{{facility.id}}'> Batiment {{facility.name}} </a> >
+        <a href='/batiment-{{facility.id}}/salle-{{ room.id }}'> Salle {{room.name}} </a>
+    </p>
+
+    <p id="room_id" style="display: none">{{ room.id }}</p>
+
+    <div class="nav_buttons">
+<<<<<<< HEAD
+        <a class='add_button' href="/batiment-{{facility.id}}/salle-{{room.id}}/ajouter-sa">Ajouter un système d'acquisition</a>
+        <a class='edit_button' href='/batiment-{{facility.id}}/salle-{{room.id}}/edit'/>Modifier</a>
+        <a class='delete_button' onclick="openPopUp()">Supprimer</a>
+    </div>
+{% endif %}
+<div class="content">
+    <div class="row_container">
+        <div id="color_rectangle" class="rectangle">
+            <div class="column_content">
+                <h1 class="dashboard_title">Informations</h1>
+                <div class="info">
+                    <div class="information_div">
+                        <p class="information_text">Numéro de la salle : {{room.num}}</p>
+                    </div>
+                    <div class="information_div">
+                        <p class="information_text">Batiment de la salle : {{room.facility.name}}</p>
+                    </div>
+                    <div class="information_div">
+                        <p class="information_text"> Nombre de fenêtre : {{room.NbWindows}}</p>
+                    </div>
+                    <div class="information_div">
+                        <p class="information_text">Surface : {{room.surface}}</p>
+                    </div>
+                    <div class="information_div">
+                        <p class="information_text">Nombre de capteurs : {{room.sensor|length}}</p>
+                    </div>    
+                </div>
+                <div class="alerts">
+                <h1> Alertes : </h1>
+                <!-- for alert in alerts, display it -->
+                {% for alert in alerts %}
+                    <div class="alert">
+                        <p class="alert_text">{{ alert }}</p>
+                    </div>
+                {% endfor %}
+                </div>
+=======
+    {% if is_granted('ROLE_SV') %}
+        <div class="history_selector">
+            <a class='history_button'/>Historique des problemes </a>
+            <div class="calendar">
+                {{ form_start(form_date) }}
+                    {{ form_widget(form_date) }}
+                    <input type="submit" value="Sélectionner" class="submitBtn">
+                {{ form_end(form_date) }}
+>>>>>>> 8df0513a3810338a9dc3a94aa0caac74c6ba07fd
+            </div>
+        </div>
+    {% endif %}
+    {% if is_granted('ROLE_EDIT') %}
+        <a class='edit_button' href='/batiment-{{facility.id}}/salle-{{room.id}}/edit'/>Modifier <i>{{room.name}}</i></a>
+    {% endif %}
+    </div>
+{# All content #}
+<div class="content">
+    {# Sensor's infos #}
+        {% if (is_granted('ROLE_SEEALL') or is_granted('ROLE_EDIT')) %}
+            <div class="column_container">
+                <div class="column_content">
+                    <div class="roomNavigation">
+                        <h1 id="roomListTitle">Système d'acquisition</h1>
+                    </div>
+                    <div id="sensorBox" class="roomContainer">
+                        {# //////// Affichage du capteur //////// #}
+                        <div class="tileClickable">
+                            {% if sensor != null %}
+                            <a class="btn">
+                                {{sensor.num}}
+                            </a>
+                            {% else %}
+                            <a class="btn">
+                                Aucun capteur
+                            </a>
+                            {% endif %}
+                        </div>
+                        {# //////// Affichage du capteur //////// #}
+
+                        {# /////// Affichage de ses infos /////// #}
+                        {% if sensor != null and dataErrors == [] %}
+                            <p class="sensor-info"><i class="s-circle {{ sensor.enabled ? 'on' : 'off' }}"></i>{{ sensor.enabled ? 'En ligne' : 'Hors ligne' }}</p>
+                        {% elseif sensor != null %}
+                            <div class="advisories sensor-advisories">
+                                <p class="sensor-info"><i class="s-circle {{ sensor.enabled ? 'on' : 'off' }}"></i>{{ sensor.enabled ? 'En ligne' : 'Hors ligne' }}</p>
+                                <div class="room_advisor_content">
+                                    <!-- For each alert, display it -->
+                                    {% for error in dataErrors %}
+                                        <h6>{{ error }}</h6>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% else %}
+                            <p class="sensor-info"><i class="s-circle off"></i>Aucun capteur</p>
+                        {% endif %}
+                        
+                        <div class="sensor-info">
+                            <h6>Dernier envoi de donnée(s)</h6>
+                            {% if data != [] and data[sensor.num] != [] %}
+                                <p>{{ data[sensor.num][0].date }}</p>
+                            {% else %}
+                                <p>Aucune donnée</p>
+                            {% endif %}
+                        </div>
+                        {# /////// Affichage de ses infos /////// #}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+{# All Dashboard #}
+    {# First Dashboard Part #}
+        <div class="row_container">
+            {# Datas #}
+                <div class="column_container">
+                    <div class="column_content">
+                        <div class="title_content"><h1 class="dashboard_title">Dernières données<h1 id="dashboard_date">{{ lastData['date']|date('d/m/Y') }} à {{ lastData['date']|date('H:i') }}</h1></h1></div>
+                        <div class="lastDataContent">
+                        <!-- Display 3 datas in lastData with the associate picture next to -->
+                            <div class="lastData">
+                                <div id="temperature">
+                                    <img src="/assets/images/weather/temp.png">
+                                    {% if lastData['temp'] == [] %}
+                                        <p> Aucune donnée </p>
+                                    {% else %}
+                                        <p> {{ lastData['temp'].getValue() }} °C</p>
+                                    {% endif %}
+                                </div>
+                                <div id="humidity">
+                                    <img src="/assets/images/weather/hum2.png">
+                                    {% if lastData['hum'] == [] %}
+                                        <p> Aucune donnée </p>
+                                    {% else %}
+                                        <p> {{ lastData['hum'].getValue() }} %</p>
+                                    {% endif %}
+                                </div>
+                                <div id="co2">
+                                    <img src="/assets/images/weather/co2.png">
+                                    {% if lastData['co2'] == [] %}
+                                        <p> Aucune donnée </p>
+                                    {% else %}
+                                        <p> {{ lastData['co2'].getValue() }} ppm </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    {# Second Dashboard Part #}
+        <div class="row_container" id="info">
+        {# Informations #}
+            <div class="column_container">
+                <div class="column_content" id="information">
+                    <h1 class="dashboard_title">Informations</h1>
+                    <div class="room_info">
+                        <div class="container">
+                            <img id="door_img" src="/assets/images/porte.png">
+                            <p id="room_num">{{room.name}}</p>
+                            <div class="overlay">Nom de la salle</div>
+                        </div>
+                        <div class="container column_info">
+                            <img id="size_img" src="/assets/images/surface.png">
+                            <p>{{room.surface}} m²</p>
+                            <div class="overlay">Superficie de la salle en m²</div>
+                        </div>
+                        <div class="container column_info">
+                            <img id="window_img" src="/assets/images/fenetre.png">
+                            <p>{{room.NbWindows}} fenêtres</p>
+                            <div class="overlay">Nombre de fenêtres dans la salle</div>
+                        </div>  
+                    </div>
+                </div>
+            </div>
+        {# Objectives #}
+            <div class="column_container">
+                <h1 class="dashboard_title">Objectifs de la salle</h1>
+                <div class="column_content">
+<<<<<<< HEAD
+                    <h1 class="dashboard_title">Objectifs de la salle</h1>
+                    <p class="objective_information"> {{ objective_information }} </p>
+                    <div class="info">
+                        <div class="information_div">
+                            <p class="information_text"> Temperature : {{objective.temperature}}
+                        </div>
+                        <div class="information_div">
+                            <p class="information_text"> Humidité : {{objective.humidity}}
+                        </div>
+                        <div class="information_div">
+                            <p class="information_text"> eCO2 : {{objective.eCO2}}
+=======
+                    <div class="objective_information"> {{ objective_information }}</div>
+                    <div class="objective_info">
+                        <div class="objective_div">
+                            <img id="temp_img" src="/assets/images/weather/temp.png">
+                            <p id="temp_objective" class="information_text">{{objective.temperature}} °C</p>
+                        </div>
+                        <div class="objective_div">
+                            <img id="hum_img" src="/assets/images/weather/hum2.png">
+                            <p id="hum_objective" class="information_text">{{objective.humidity}} %</p>
+                        </div>
+                        <div class="objective_div">
+                            <img id="co2_img" src="/assets/images/weather/co2.png">
+                            <p id="co2_objective" class="information_text"> {{objective.eCO2}} ppm</p>
+>>>>>>> 8df0513a3810338a9dc3a94aa0caac74c6ba07fd
+                        </div>
+                    </div>
+                </div>
+            </div>
+<<<<<<< HEAD
+            <div class="column_div">
+                <div class="column_content">
+                    <h1 class="dashboard_title">Données moyennes</h1>
+                    <div class="lastData">
+                    {% if data == null %}
+                        <p>Aucune donnée disponible</p>
+                    {% endif %}
+                    {% for roomData in data %}
+                        {% for datum in roomData %}
+                            <div class="data-container">
+                                <div class="data-little">
+                                    {% if datum.name == "temp" %}
+                                        <p>{{ datum.value }}°C</p>
+                                    {% elseif datum.name == "hum" %}
+                                        <p>{{ datum.value }}%</p>
+                                    {% elseif datum.name == "co2" %}
+                                        <p>{{ datum.value }}ppm</p>
+                                    {% endif %}
+                                </div>
+                                <div class="data-big">
+                                    <p>{{ datum.date }}</p>
+                                    <p>{{ datum.desc }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                    </div>
+                </div>
+            </div>
+=======
+>>>>>>> 8df0513a3810338a9dc3a94aa0caac74c6ba07fd
+        </div>
+    {# Third Dashboard Part #}
+        <div class="row_container">
+        {# Advisories #}
+            <div class="column_container">
+                <div id="advisories_container" class="column_content">
+                    <div id="alerts" class="advisories">
+                        <img id="alert_img" src="/assets/images/alert1.png">
+                        <h1 class="dashboard_title"> Alertes : </h1>
+                        <div class="information">
+                            <img class="info_icon" src="/assets/images/information.png">
+                            <p class="info_text">
+                                Les alertes permettent d'indiquer les données qui ne correspondent pas aux objectifs fixés.
+                            </p>
+                        </div>
+                        <!-- for alert in alerts, display it -->
+                        <div class="room_advisor_content">
+                            <!-- Verify if there is at least one alert -->
+                            {% if alerts|length > 0 %}
+                                <!-- For each alert, display it -->
+                                {% for alert in alerts %}
+                                    <div class="advisor container">
+                                        <div class="advisor_content">
+                                            {% if alert.type == "temp" %}
+                                                <div id="advisor_content">
+                                                    {% if alert.getPosition() == "lower" %}
+                                                        <img id="cold_img" src="/assets/images/cold.png">
+                                                    {% elseif alert.getPosition() == "higher" %}
+                                                        <img id="heat_img" src="/assets/images/fire.png">
+                                                    {% endif %}
+                                                    <img class="advisor_img" src="/assets/images/temp.png">
+                                                    <img id="danger_img" src="/assets/images/danger.png">
+                                                </div>
+                                                    <div class="overlay">{{ alert.getAlertMessage() }}</div>
+                                    {% elseif alert.type == "hum" %}
+                                                <div id="advisor_content">
+                                                    {% if alert.getPosition() == "higher" %}
+                                                        <img class="advisor_img" src="/assets/images/up_hum.png">
+                                                    {% elseif alert.getPosition() == "lower" %}
+                                                        <img class="advisor_img" src="/assets/images/down_hum.png">
+                                                    {% endif %}
+                                                    <img id="danger_img" src="/assets/images/danger.png">
+                                                </div>
+                                                <div class="overlay">{{ alert.getAlertMessage() }}</div>
+                                    {% elseif alert.type == "co2" %}
+                                                <div id="advisor_content">
+                                                    <img class="advisor_img" src="/assets/images/weather/co2.png">
+                                                    <img id="danger_img" src="/assets/images/danger.png">
+                                                </div>
+                                                <div class="overlay">{{ alert.getAlertMessage() }}</div>
+                                    {% endif %}
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                            <div id="no_advisor">
+                                <p>Aucune alerte à afficher dans cette salle</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div id="tips" class="advisories">
+                        <img id="tips_img"  src="/assets/images/idea.png">
+                        <h1 class="dashboard_title"> Conseils : </h1>
+                        <div class="information">
+                            <img class="info_icon" src="/assets/images/information.png">
+                            <p class="info_text">
+                                Les conseils permettent d'indiquer ce qu'il faut faire pour approcher la salle de son objectif de qualité d'air.
+                            </p>
+                        </div>
+                        <div class="room_advisor_content">
+                            <!-- Verify if there is at least one tip -->
+                            {% if tips|length > 0 %}
+                                <!-- For each tip, display it -->
+                                {% for tip in tips %}
+                                    <div class="advisor container">
+                                        <div class="advisor_content">
+                                        {% if tip.getType() == "ventilate" %}
+                                            <div id="alerts_content">
+                                                <img class="advisor_img" src="/assets/images/ventilation.png">
+                                            </div>
+                                            <p class="overlay">{{ tip.getMessage() }}</p>
+                                        {% elseif tip.getType() == "heat" %}
+                                            <div id="alerts_content">
+                                                <img class="advisor_img" src="/assets/images/temp.png">
+                                                <img id="up_img" src="/assets/images/arrow-up.png">
+                                            </div>
+                                            <p class="overlay">{{ tip.getMessage() }}</p>
+                                        {% elseif tip.getType() == "cool" %}    
+                                            <div id="alerts_content">
+                                                <img class="advisor_img" src="/assets/images/cold.png">
+                                                <img id="down_img" src="/assets/images/arrow-down.png">
+                                            </div>
+                                            <p class="overlay">{{ tip.getMessage() }}</p>
+                                        {% elseif tip.getType() == "humidify" %}
+                                            <div id="alerts_content">
+                                                <img class="advisor_img" src="/assets/images/humidify.png">
+                                            </div>
+                                            <p class="overlay">{{ tip.getMessage() }}</p>
+                                        {% elseif tip.getType() == "dehumidify" %}
+                                            <div id="alerts_content">
+                                                <img class="advisor_img" src="/assets/images/dry.png">
+                                            </div>
+                                            <p class="overlay">{{ tip.getMessage() }}</p>
+                                        {% elseif tip.getType() == "closeWindows" %}
+                                            <div id="alerts_content">
+                                                <img class="advisor_img" src="/assets/images/closeWindows.png">
+                                            </div>
+                                            <p class="overlay">{{ tip.getMessage() }}</p>
+                                        {% else %}
+                                            <div id="alerts_content">
+                                                <h1> {{tip.getType()}} </h1>
+                                            </div>
+                                            <p class="overlay">{{ tip.getMessage() }}</p>
+                                        {% endif %}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                            <div id="no_advisor">
+                                <p>Aucun conseil à afficher dans cette salle</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+<<<<<<< HEAD
+            <div class="roomContainer">
+                {% if sensor != null %}
+                    <div class="roomContent">
+                        <a class="btn">
+                            {{sensor.num}}
+                        </a>
+=======
+        </div>
+    {# Fourth Dashboard Part #}
+        <div class="row_container">
+        {# Meteo #}
+            <div class="column_container">
+                <div id="weather-content" class="column_content">
+                    <div id="roomNavigation">
+                        <h1 id="roomListTitle">Météo</h1>
+                        <h1 class="weather_room_title" id="room_date">{{ trans_day_hash["now"|date('l')]}} {{ "now"|date('j') }} {{ trans_month_hash["now"|date('F')]}} {{ "now"|date('Y') }}</h1>
+                        <h1 id="weather_room_city" class="weather_room_title">La Rochelle</h1>
+>>>>>>> 8df0513a3810338a9dc3a94aa0caac74c6ba07fd
+                    </div>
+                    <div class="roomWeatherContainer">
+                        <div id="room_temp_content">
+                            {{ weatherData.main.temp }}°C
+                        </div>
+                        <div id="room_air_quality">
+                            <p>Qualité de l'air</p>
+                            {% if gaz.list[0].main.aqi == 1 %}
+                                <div style="background:#88C03C;">BON</div>
+                            {% elseif gaz.list[0].main.aqi == 2 %}
+                                <div style="background:#EEBE1C;">MOYEN</div>
+                            {% elseif gaz.list[0].main.aqi == 3 %}
+                                <div style="background:#F27E2F;">DÉGRADÉ</div>
+                            {% elseif gaz.list[0].main.aqi == 4 %}
+                                <div style="background:#E84B4F;">MAUVAIS</div>
+                            {% elseif gaz.list[0].main.aqi == 5 %}
+                                <div style="background:#895D9D;">TRÈS MAUVAIS</div>
+                            {% else %}
+                                <p>Aucune information</p>
+                            {% endif %}
+                        </div>
+                        {% if statusCode == 200 %}
+                        <div class="icon_content">
+                            {% if weatherData.weather[0].main == 'Rain' %}
+                                <div class="icon rainy">
+                                    <div class="cloud"></div>
+                                    <div class="rain"></div>
+                                </div>
+                            {% elseif weatherData.weather[0].main == 'Clear' %}
+                                <div class="icon sunny">
+                                    <div class="sun">
+                                        <div class="rays"></div>
+                                    </div>
+                                </div>
+                            {% elseif weatherData.weather[0].main == 'Clouds' %}
+                                <div class="icon cloudy">
+                                    <div class="cloud"></div>
+                                    <div class="cloud"></div>
+                                </div>
+                            {% elseif weatherData.weather[0].main == 'Thunderstorm' %}
+                                <div class="icon thunder-storm">
+                                    <div class="cloud"></div>
+                                    <div class="lightning">
+                                        <div class="bolt"></div>
+                                        <div class="bolt"></div>
+                                    </div>
+                                </div>
+                            {% elseif weatherData.weather[0].main == 'Snow' %}
+                                <div class="icon flurries">
+                                    <div class="cloud"></div>
+                                    <div class="snow">
+                                        <div class="flake"></div>
+                                        <div class="flake"></div>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="icon cloudy">
+                                    <div class="cloud"></div>
+                                    <div class="cloud"></div>
+                                </div>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                        <div class="room_data" id="room_data_hum">
+                            <img class="data_img" src="/assets/images/weather/hum1.png">
+                            <p>{{ weatherData.main.humidity }}% d'humidité</p>
+                        </div>
+                        <div class="room_data">
+                            <img class="data_img" src="/assets/images/weather/co2.png">
+                            <p>{{ gaz.list[0].components.co }} ppm</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {# Fifth Dashboard Part #}
+        <div class="column_container">
+            <div class="column_content">
+                <div id="roomNavigation">
+                    <h1 id="roomListTitle">Graphique représentant chaque donnée en fonction du temps de la salle {{ room }}</h1>
+                </div>
+                <div class="chart_container">
+                    <div id="chart_Container" class="chart_content">
+                        <canvas id="myChart"></canvas>
+                    </div>
+                    <div class="chartOptions">
+                        <div class="chartContent">
+                            <h3>Choisissez le type de données à visualiser</h3>
+                            <div class="chartBtnContainer">
+                                <div id="1" onclick="getData('hum', id)" class="button">
+                                    <a>Humidité</a>
+                                </div>
+                                <div id="2" onclick="getData('temp', id)" class="button">
+                                    <a>Température</a>
+                                </div>
+                                <div id="3" onclick="getData('co2', id)" class="button">
+                                    <a>Co2</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chartContent">
+                            <h3>Choisissez l'interval de temps</h3>
+                            <div class="chartBtnContainer">
+                                <div id="4" onclick="filterData(id, 'day')" class="button">
+                                    <a>Jour</a>
+                                </div>
+                                <div id="5" onclick="filterData(id, 'week')" class="button">
+                                    <a>Semaine</a>
+                                </div>
+                                <div id="6" onclick="filterData(id, 'month')" class="button">
+                                    <a>Mois</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

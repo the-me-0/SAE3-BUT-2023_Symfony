@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Batiments{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="/assets/css/home.css">
+    <link rel="stylesheet" href="/assets/css/dashboard_base.css">
+    <link rel="stylesheet" href="/assets/css/dashboard_edit.css">
+
+{% endblock %}
+
+{% set page_title = 'SmartCampus - Salles Management' %}
+
+
+{% block body %}
+
+<p class="route"><a href='/liste_batiments'> Liste des bâtiments </a></p>
+<div class="nav_buttons">
+    {% if is_granted('ROLE_ADMIN') %}
+        <a class='add_button' href="/ajouter-batiment">Ajouter un Bâtiment</a>
+    {% endif %}
+</div>
+
+<div class="management-wrapper">
+    <h1>Liste des bâtiments</h1>
+    <div class="viewer_content">
+        {% for facility in facilities %}
+        <a href="/batiment-{{ facility.id }}/" class="divBtnContent">
+            <div class="facility">
+                <h6>{{ facility.name }}</h6>
+                <h6 class="sector">{{ facility.sector }}</h6>
+            </div>
+        </a>
+        {% else %}
+            <div class="row">
+                <h2>Aucun bâtiment</h2>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

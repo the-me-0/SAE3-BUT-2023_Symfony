@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard Management{% endblock %}
+
+
+{% block style %}
+    <link rel="stylesheet" href="/assets/css/dashboard_base.css">
+    <link rel="stylesheet" href="/assets/css/dashboard_admin.css"> {# Style complement #}
+    <script src="assets/js/dashboard.js"></script>
+    <link rel="stylesheet" href="/assets/css/weather.css">
+{% endblock %}
+
+{% block body %}
+<p class="route">
+    <a href='/liste_batiments'> Liste des bâtiments </a> >
+    <a href='/dashboard'> Dashboard </a> >
+</p>
+
+<div class="content">
+    <div class="row_container">
+        <div id="color_rectangle" class="rectangle">
+            <div class="column_content dashboardContent">
+                <h6>Salles en alerte</h6>
+                <div class="roomContainer" id="rooms_in_alert">
+                <div class="lds-facebook"><div></div><div></div><div></div></div>
+
+                </div>
+            </div>
+        </div>
+        <div id="hidden_rectangle" class="rectangle">
+            <div class="column_div">
+                <div class="column_content dashboardContent">
+                    <h6>Systèmes d'acquisition hors ligne</h6>
+                    <div class="roomContainer" id="acquisition_systems_not_connected">
+                        <div class="lds-facebook"><div></div><div></div><div></div></div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="column_div" style="display: flex;flex-direction: column;justify-content: flex-start;">
+                <div class="column_content dashboardContent">
+                    <h6>Salles sans système d'acquisition</h6>
+                    <div class="roomContainer" id="rooms_without_acquisition_system">
+                        <div class="lds-facebook"><div></div><div></div><div></div></div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

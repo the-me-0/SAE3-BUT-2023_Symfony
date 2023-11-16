@@ -1,0 +1,58 @@
+services:
+
+  symfony:
+    container_name: sae-php
+    build:
+      context: .
+      dockerfile: ./build/symfony/Dockerfile
+      args:
+        USER_ID: ${USER_ID:-0}
+        GROUP_ID: ${GROUP_ID:-0}
+    volumes:
+      - ./symfony:/var/www/html
+    depends_on:
+      - bdd
+    security_opt:
+      - seccomp:unconfined
+      # https://docs.docker.com/engine/security/seccomp/
+    networks:
+      - sae
+
+  bdd:
+    image: mariadb
+    container_name: sae-bdd
+    ports:
+      - "9978:3306"
+    healthcheck:
+      test: "/usr/bin/mysql --user=sae --password=sae --execute \"SHOW DATABASES;\""
+      interval: 1s
+      timeout: 5s
+      retries: 5
+    environment:
+      MYSQL_DATABASE: sae
+      MYSQL_USER: sae
+      MYSQL_PASSWORD: sae
+      MYSQL_ROOT_PASSWORD: sae
+    networks:
+      - sae
+
+  nginx:
+    container_name: sae-web
+    build:
+      context: .
+      dockerfile: ./build/nginx/Dockerfile
+    volumes:
+      - ./symfony:/var/www/html
+    depends_on:
+      - symfony
+    ports:
+      - 9979:80
+    networks:
+      - sae
+
+networks:
+  sae:
+    driver: bridge
+
+
+

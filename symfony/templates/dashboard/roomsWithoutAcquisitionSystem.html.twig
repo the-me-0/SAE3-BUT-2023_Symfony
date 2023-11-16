@@ -1,0 +1,11 @@
+{% for room in rooms_without_acquisition_system %}
+    <div class="tileClickable tileClickableClickable">
+        <a href="/batiment-{{room.facility}}/salle-{{room.id}}" class="btn">
+            {{room.name}}
+        </a>
+    </div>
+{% else %}
+    <div class="row">
+        <h2>Aucune salle à afficher</h2>
+    </div>
+{% endfor %}

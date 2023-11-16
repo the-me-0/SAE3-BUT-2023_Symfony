@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Salle - Nouveau{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="/assets/css/management.css">
+    <link rel="stylesheet" href="/assets/css/form.css">
+    <link rel="stylesheet" href="/assets/css/dashboard_edit.css">
+{% endblock %}
+
+{% set page_title = 'SmartCampus - Management' %}
+
+{% block body %}
+    <p class="route">
+    <a href='/liste_batiments'> Liste des bâtiments </a> >
+    <a href='/batiment-{{facility}}'> Batiment {{facility_name}} </a> > 
+    </p>
+    <div class="form">
+        <h6>Ajouter une salle au batiment {{facility_name}}</h6>
+        {{ form_start(form) }}
+            <div class="row">
+                {{ form_label(form.name, 'Nom complet') }}
+                {{ form_widget(form.name) }}
+            </div>
+            <div class="row">
+                {{ form_label(form.floor, 'Etage') }}
+                {{ form_widget(form.floor) }}
+            </div>
+            <div class="row">
+                {{ form_label(form.surface, 'Surface (m2)') }}
+                {{ form_widget(form.surface) }}
+            </div>
+            <div class="row">
+                {{ form_label(form.nb_windows, 'Nombre de fenêtres') }}
+                {{ form_widget(form.nb_windows) }}
+            </div>
+            <div class="row">
+                {{ form_label(form.private, 'Privée (cocher si la salle est privée)') }}
+                {{ form_widget(form.private) }}
+            </div>
+            <div class="row">
+                {{ form_label(form.owner, 'Propriétaires') }}
+                {{ form_widget(form.owner) }}
+            </div>
+            <button type="submit" class="submitBtn" onclick="this.classList.add('submitBtn--loading')">
+                <a class="submitBtn__text">Valider</a>
+            </button>
+        {{ form_end(form) }}
+
+{% endblock %}

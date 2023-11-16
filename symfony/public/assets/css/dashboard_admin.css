@@ -1,0 +1,85 @@
+
+
+/* assets/css/dashboard_admin.css */
+
+/* ~~~~~~~~~~~~~~~ CAUTION ~~~~~~~~~~~~~~~ */
+/* ~~~~~~~~~~~~~~~ CAUTION ~~~~~~~~~~~~~~~ */
+/* ~~~~~~~~~~~~~~~ CAUTION ~~~~~~~~~~~~~~~ */
+
+/* This file is a complement to the dashboard_base.css file.
+ *  Can't be used on it's own for a complete dashboard.
+ */
+
+/* ~~~~~~~~~~~~~~~ CAUTION ~~~~~~~~~~~~~~~ */
+/* ~~~~~~~~~~~~~~~ CAUTION ~~~~~~~~~~~~~~~ */
+/* ~~~~~~~~~~~~~~~ CAUTION ~~~~~~~~~~~~~~~ */
+
+.column_content{
+    width: 90%;
+    overflow: hidden;
+}
+
+.roomContainer {
+    margin: inherit 2vw;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+#acquisition_systems_not_connected {
+    overflow: auto;
+    margin: 0;
+    width: 100%;
+}
+
+#rooms_without_acquisition_system {
+    margin: 0;
+}
+
+#hidden_rectangle > div:first-child {
+    max-height: 55%;
+}
+
+.bigAlert {
+    width: 90%;
+    height: auto;
+    transition: all 0.1s ease 0s;
+    display: flex;
+    flex-direction: column;
+}
+
+.bigAlert:hover {
+    transform: scale(1.01);
+}
+
+
+/* ///////////// Room infos ///////////// */
+
+.bigAlert .roomSide {
+    border-bottom: 2px rgba(0, 0, 0, 0.1) solid;
+}
+
+.bigAlert .alert.container .room_alert_content {
+    margin: 1em;
+}
+
+.bigAlert .all-alerts {
+    display: flex;
+    flex-direction: row;
+    justify-content:space-around;
+    align-items: center;
+    padding: 1em;
+}
+
+/* ///////////// Room infos ///////////// */
+
+
+#rooms_in_alert {
+    overflow: auto;
+    margin: 0;
+    width: 100%;
+}
+
+#hidden_rectangle > div:last-child {
+    height: 100%;
+}

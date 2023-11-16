@@ -1,0 +1,68 @@
+{% for entry in rooms_in_alert %}
+    <div class="tileClickable tileClickableClickable bigAlert" onclick="location.href='/batiment-{{entry.room.facility.id}}/salle-{{entry.room.id}}';" style="cursor: pointer;">
+        {# ///////////// Room infos ///////////// #}
+        <div class="roomSide">
+            <p>{{entry.room.name}}</p>
+        </div>
+        {# ///////////// Room infos ///////////// #}
+
+
+        {# //////////// Alerts infos //////////// #}
+        <div class="room_alert_content all-alerts">
+            {% for alert in entry.alerts %}
+                {# We can now display the alert depending on it's type #}
+                {% if alert.type == "temp" %}
+
+                    <div class="alert container">
+                        <div class="room_alert_content">
+                            <div id="alert_content">
+                                {% if alert.getDifference() < 0 %}
+                                    <img id="cold_img" src="/assets/images/cold.png">
+                                {% elseif alert.getDifference() > 0 %}
+                                        <img id="cold_img" src="/assets/images/fire.png">
+                                {% endif %}
+                                <img id="room_temp" src="/assets/images/temp.png">
+                                 <img id="temp_danger_img" src="/assets/images/danger.png">
+                            </div>
+                            <div class="overlay">{{ alert.getAlertMessage() }}</div>
+                        </div>
+                    </div>
+
+                {% elseif alert.type == "hum" %}
+
+                    <div class="alert container">
+                        <div class="room_alert_content">
+                            <div id="alert_content">
+                                {% if alert.getDifference() > 0 %}
+                                    <img id="hum_img" src="/assets/images/up_hum.png">
+                                {% else %}
+                                    <img id="hum_img" src="/assets/images/down_hum.png">
+                                {% endif %}
+                                <img id="danger_img_hum" src="/assets/images/danger.png">
+                            </div>
+                        </div>
+                        <div class="overlay">{{ alert.getAlertMessage() }}</div>
+                    </div>
+                    
+                {% elseif alert.type == "co2" %}
+
+                    <div class="alert container">
+                        <div class="room_alert_content">
+                            <div id="alert_content">
+                                <img id="alert_co2_img" src="/assets/images/weather/co2.png">
+                                <img id="danger_img" src="/assets/images/danger.png">
+                            </div>
+                        </div>
+                        <div class="overlay">{{ alert.getAlertMessage() }}</div>
+                    </div>
+
+                {% endif %} {# endif type of alert selector #}
+            {% endfor %} {# endfor entry.alerts #}
+        </div>
+        {# //////////// Alerts infos //////////// #}
+    </div>
+{% else %} {# No alert #}
+
+
+
+{% endfor %} {# end for rooms_in_alert #}

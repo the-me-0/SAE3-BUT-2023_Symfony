@@ -1,0 +1,149 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Salle - Edition{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="/assets/css/dashboard_edit.css">
+    <link rel="stylesheet" href="/assets/css/dashboard_base.css">
+    <link rel="stylesheet" href="/assets/css/form.css">
+    <link rel="stylesheet" href="/assets/css/popup.css">
+{% endblock %}
+
+{% block body %}
+<script src="/assets/js/facility.js"></script>
+<script type="text/javascript" src="/assets/js/popup.js"></script>
+<p class="route">
+<a href='/liste_batiments'> Liste des bâtiments </a> >
+<a href='/batiment-{{facility.id}}/edit'> Batiment {{facility.name}} </a> >
+<a href='/batiment-{{facility.id}}/salle-{{ room.id }}/edit'> Salle {{room.name}} </a> >
+</p>   
+
+{% if is_granted('ROLE_EDIT') %}
+    <div class="nav_buttons">
+        <a class='delete_button' onclick="openPopUp()">Supprimer <i> {{room.name}} </i></a>
+        <a class='add_button' href="/batiment-{{facility.id}}/salle-{{room.id}}/ajouter-sa">Ajouter un système d'acquisition</a>
+        <a class='return_button' href='/batiment-{{facility.id}}/salle-{{room.id}}'/>Quitter le mode Modifier</a>
+    </div>
+{% endif %}
+
+<div class="content">
+    <div class="row_container">
+        <div id="color_rectangle" class="rectangle">
+            <div class="column_content">
+                <h1 class="dashboard_title">Informations</h1>
+                <div class="form">
+                    {{ form_start(room_form)}}
+                        <div class="row">
+                            {{ form_label(room_form.name, 'Nom complet') }}
+                            {{ form_widget(room_form.name)}}
+                        </div>
+                        <div class="row">
+                            {{ form_label(room_form.floor, 'Etage') }}
+                            {{ form_widget(room_form.floor) }}
+                        </div>
+                        <div class="row">
+                            {{ form_label(room_form.surface, 'Surface (m²)') }}
+                            {{ form_widget(room_form.surface) }}
+                        </div>
+                        <div class="row">
+                            {{ form_label(room_form.nb_windows, 'Nombre de fenêtre') }}
+                            {{ form_widget(room_form.nb_windows) }}
+                        </div>
+                        <div class="row">
+                            {{ form_label(room_form.private, 'Privée (cocher si la salle est privée)') }}
+                            {{ form_widget(room_form.private) }}
+                        </div>
+                        <div class="row">
+                            {{ form_label(room_form.owner, 'Propriétaire(s)') }}
+                            {{ form_widget(room_form.owner) }}
+                        </div>
+                    <button type="submit" class="submitBtn" onclick="this.classList.add('submitBtn--loading')">
+                        <span class="submitBtn__text">Valider</span>
+                    </button>
+                    {{ form_end(room_form)}}
+                </div>
+            </div>
+        </div>
+        <div id="hidden_rectangle" class="rectangle">
+            <div class="column_div">
+                <div class="column_content">
+                    <h1 class="dashboard_title">Objectifs de la salle</h1>
+                    <p class="objective_information"> {{ objective_information }} </p>
+                    <!-- form to set objectives -->
+                    {{ form_start(objectiveForm) }}
+                        <div class="form objectiveForm">
+                            <div class="row">
+                                {{ form_label(objectiveForm.temperature, 'Temperature') }}
+                                {{ form_widget(objectiveForm.temperature) }}
+                                {{ form_label(objectiveForm.gapTemperature, 'écart accepté') }}
+                                {{ form_widget(objectiveForm.gapTemperature) }}
+                            </div>
+                            <div class="row">
+                                {{ form_label(objectiveForm.humidity, 'Humidité') }}
+                                {{ form_widget(objectiveForm.humidity) }}
+                                {{ form_label(objectiveForm.gapHumidity, 'écart accepté') }}
+                                {{ form_widget(objectiveForm.gapHumidity) }}
+                            </div>
+                            <div class="row">
+                                {{ form_label(objectiveForm.eCO2, 'eCO2') }}
+                                {{ form_widget(objectiveForm.eCO2) }}
+                                {{ form_label(objectiveForm.gapECO2, 'écart accepté') }}
+                                {{ form_widget(objectiveForm.gapECO2) }}
+                            </div>
+                            <button type="submit" class="submitBtn" onclick="this.classList.add('submitBtn--loading')">
+                                <span class="submitBtn__text">Valider</span>
+                            </button>
+                        </div>
+                    {{ form_end(objectiveForm) }}
+                    <!-- error message if bad values in form -->
+                    {% if form_objective_error_message %}
+                        <div class="objective_form_error">
+                            <p> {{ form_objective_error_message }} </p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="column_container" id="sensor-container-edit">
+        <div class="column_content">
+            <div class="roomNavigation">
+                <h1 id="roomListTitle">Liste des systèmes d'acquisition</h1>
+                {#{% for stage in stages %}
+                    <a href="#{{stage}}" class="stageButton"><div class="Stage">Étage {{ stage }}</div></a>
+                {% endfor %}#}
+            </div>
+            <div class="roomContainer">
+                {% if sensor != null %}
+                    <div class="tileClickable tileClickableClickable">
+                        <a href="/batiment-{{facility.id}}/salle-{{room.id}}/capteur-{{sensor.id}}/edit" class="btn">
+                            {{sensor.num}}
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="row">
+                        <h2>Aucun système d'acquisition dans cette salle</h2>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div id="modal">
+        <div class="mask"></div>
+        <div class="container auto">
+            <div class="form_container">
+                <div class="form">
+                    <h6>Voulez-vous vraiment supprimer cette salle ?</h6>
+                    <center><p id="message">En cliquant sur "Supprimer" vous supprimerez les systèmes d'acquisitions présent des celles-ci</p></center>
+                    <a href="/batiment-{{ facility.id }}/salle-{{ room.id }}/supprimer-salle">
+                        <div class="valider">
+                            <p>Supprimer</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <a href="#" onclick="closePopUp()" class="close">&times;</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Batiment - Nouveau{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="/assets/css/history.css">
+    <link rel="stylesheet" href="/assets/css/dashboard_edit.css">
+    <link rel="stylesheet" href="/assets/css/dashboard_base.css">
+{% endblock %}
+
+{#{% set page_title = 'Problèmes - Batiment ' .  {{facility.getName()}}  %} #}
+
+{% block body %}
+<p class="route">
+    <a href='/liste_batiments'> Liste des bâtiments </a> >
+    <a href='/historique_probleme'> Historique des problèmes </a>
+</p>
+<div class="nav_buttons">
+    {% if is_granted('ROLE_SV') %}
+        <a class='list_button' href='/liste_batiments'/> Quitter historique des problemes </a>
+    {% endif %}
+</div>
+
+<div class="content_history">
+    <div class="information_history">
+        <img class="info_icon_history" src="/assets/images/information.png">
+        <p class="info_text_history">
+            Le score permet de savoir le taux de problème dans la salle. Plus ce nombre est élevé plus il y a eu de problèmes.
+        </p>
+    </div>
+    <div class="elements">
+        {# for each array in facilities_data#}
+        {% for data in facilities_data %}
+            {% if data["score"] <= 25 %}
+                <a class="element green" href="/batiment-{{data["facility"].getId()}}/historique_probleme">
+            {% elseif data["score"] <= 50 %}
+                <a class="element yellow" href="/batiment-{{data["facility"].getId()}}/historique_probleme">
+            {% elseif data["score"] <= 75 %}
+                <a class="element orange" href="/batiment-{{data["facility"].getId()}}/historique_probleme">
+            {% elseif data["score"] <= 100 %}
+                <a class="element red" href="/batiment-{{data["facility"].getId()}}/historique_probleme">
+            {% else %}
+                <a class="element white" href="/batiment-{{data["facility"].getId()}}/historique_probleme">
+            {% endif %}
+                <div class="info_facility">
+                    <div class="facility_name">
+                        <h2> {{ data["facility"].getName() }} </h2>
+                    </div>
+                </div>
+                <div class="score">
+                    <p> {{ data["score"] }} / 100</p>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

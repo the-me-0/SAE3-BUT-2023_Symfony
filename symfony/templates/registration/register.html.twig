@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="/assets/css/login.css">
+{% endblock %}
+
+{% block body %}
+    <div class="content">
+        <form method="post">
+            <div class="form">
+                <h1 class="h3 mb-3 font-weight-normal">Inscription</h1>
+                {{ form_start(registrationForm) }}
+                <label for="inputUsername">Nom d'utilisateur</label>
+                <div class="infos">
+                    {{ form_row(registrationForm.username, {
+                        label: false
+                    }) }}
+                </div>
+                <label for="inputPassword">Mot de passe</label>
+                <div class="infos">
+                    {{ form_row(registrationForm.plainPassword, {
+                        label: false
+                        
+                    }) }}
+                </div>
+                <label for="lastName">Nom</label>
+                <div class="info">
+                    {{ form_row(registrationForm.lastName, {
+                        label: false
+                    }) }}
+                <a href="/login" class="registerBtn">Se connecter</a>
+
+                <button type="submit" class="btn btn-lg btn-primary">Valider</button>
+                {{ form_end(registrationForm) }}
+            </div>
+        </form>
+    </div>
+{% endblock %}

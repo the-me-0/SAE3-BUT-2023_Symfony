@@ -1,0 +1,375 @@
+*{
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+    font-size: 1vw;
+    text-decoration: none;
+    /* overflow-inline: hidden; */
+}
+
+h1{
+    font-size: 1.3vw;
+}
+
+.btn{
+    color: black;
+    text-decoration: none;
+}
+
+.a{
+    color: black;
+}
+.stage{
+    color: black;
+}
+
+
+#dltBtn{
+    margin-top: 1vw;
+    padding: 8px 8px;
+}
+
+.content{
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 3vw;
+    flex-wrap: wrap;
+}
+
+.row_container{
+    width: 80vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.weather_container{
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-right: -1vw;
+}
+
+.column_container{
+    margin-top: 4vw;
+    width: 80vw;
+    height: auto;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+.column_container .column_content {
+    width: auto;
+}
+
+.column_content{
+    padding: 1.5vw;
+    text-align: center;
+    overflow-y: auto;
+    width: 80%;
+}
+
+
+
+.info{
+    display: block;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+}
+
+.information_text{
+    font-size: 20px;
+}
+
+.dashboard_title{
+    margin: 0 auto 10% auto;
+    width:50%;
+}
+
+.dashboard_title::after{
+    content: "";
+    display: block;
+    margin-top: 10px;
+    border-bottom: 1.5px solid black;
+}
+
+.information_div{
+    margin-top: 3%;
+}
+
+#color_rectangle{
+    background-color: white;
+    margin-right: 1vw;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+}
+
+.rectangle{
+    width: 49%;
+    height: 35vw;
+    border-radius: 10px;
+}
+
+.column{
+    background-color: white;
+    height: 47%;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+.column_div {
+    height: auto;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+}
+
+.lastData {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.data-container {
+    width: 100%;
+    height: 5vw;
+    border-radius: 10px;
+    box-shadow: 0px 0px 0.1px 0.1px var(--color_neumorphism_shadow) inset ;
+    transition:all 0.3s ease 0s;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    margin: 0 1vw 1vw 1vw;
+    padding: 0 0.5vw;
+    display: flex;
+    flex-direction: row;
+}
+
+.data-container .data-little {
+    width: 30%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-right:rgba(0, 0, 0, 0.2) 1px solid;
+}
+
+.data-container .data-big {
+    width: 70%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#hidden_rectangle{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+#hidden_rectangle>div:first-child {
+    margin-bottom: 1rem;
+}
+
+#hidden_rectangle>div:last-child {
+    overflow-y: auto;
+}
+
+
+#roomListTitle{
+    left: 0;
+    margin-top: 0.5vw;
+    margin-left: 1vw;
+}
+
+.stage{
+    height: 3vw;
+    width: 6vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+    box-shadow: 0 5px 10px rgba(0,0,0,.20);
+    border-radius: 10px;
+    margin-left: 2vw;
+    transition:all 0.3s ease 0s;
+    cursor: pointer;
+}
+
+.stage:hover{
+    transform: scale(1.1);
+    background-position: -60px;
+    box-shadow: 0 3px 6px rgb(153, 153, 153), 0 3px 6px; 
+}
+
+.stageButton{
+    margin-left: auto;
+}
+
+.roomNavigation{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 5vw;
+}
+
+.roomContainer{
+    margin-right: 5vw;
+    margin-left: 5vw;
+    margin-bottom: 1vw;
+    display: flex;
+    flex-direction: row;
+    background-color: white;
+    justify-content: space-evenly;
+}
+
+.roomContent{
+    background-color: white;
+    border-radius: 10px;
+    width: 10vw;
+    height: 5vw;
+    box-shadow: 0px 0px 0.1px 0.1px var(--color_neumorphism_shadow) inset ;
+    transition:all 0.3s ease 0s;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    margin-left: 1vw;
+    margin-right: 1vw;
+    margin-bottom: 1vw;
+}
+
+.dashboardContent h6 {
+    margin-bottom: 1rem;
+}
+
+.roomContent a{
+    display: flex;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.roomContent:active{
+    transform: scale(1);
+    background-position: 500px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.stages{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: auto;
+    margin-left: auto;
+    height: 100%;
+}
+
+
+.stageContent{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.columnStage {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.contentStage{
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    white-space: nowrap;
+}
+
+.numStage{
+    background-color: #f6f6f6;
+    border-radius: 10px;
+    margin-top: 1vw;
+    padding-top: 1vw;
+    width: 100%;
+    margin-right: 80vw;
+}
+
+.contentStage :nth-child(1){
+    margin-bottom: auto;
+}
+
+
+.objective_form_error {
+    background-color: #f8d7da;
+    border-color: #f5c2c7;
+    border-radius: 25px;
+}
+
+.objective_form_error p {
+    
+    padding: 15px;
+    color: #721c24;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+#editSensor{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: -1vw;
+}
+
+.alerts {
+    margin-top:15%;
+    background-color:rgba(255, 0, 0, 0.113);
+    padding:5%;
+    border-radius: 15px;
+}
+
+.alert {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+@keyframes facility_hover
+{
+    from {
+        box-shadow: 0px 0px 4px 4px var(--color_neumorphism_shadow) inset ;
+        
+    }
+    25% {
+        box-shadow: 0px 0px 2px 2px var(--color_neumorphism_shadow) inset;
+    }
+    50% {
+        box-shadow: 0px 0px 1px 1px var(--color_neumorphism_shadow),
+        0px 0px 1px 1px var(--color_neumorphism_shadow) inset;
+    }
+    75% {
+        
+        box-shadow: 0px 0px 2px 2px var(--color_neumorphism_shadow) ;
+    }
+    to {
+        box-shadow: 0px 0px 4px 4px var(--color_neumorphism_shadow) ;
+    }
+
+}

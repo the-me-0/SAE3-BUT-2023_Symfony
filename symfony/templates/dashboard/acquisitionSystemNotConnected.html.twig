@@ -1,0 +1,11 @@
+{% for sensor in acquisition_systems_not_connected %}
+    <div class="tileClickable tileClickableClickable">
+        <a href="/batiment-{{sensor.room.facility.id}}/salle-{{sensor.room.id}}/" class="btn">
+            {{sensor.num}}
+        </a>
+    </div>
+{% else %}
+    <div class="row">
+        <h2>Aucun système d'acquisition à afficher</h2>
+    </div>
+{% endfor %}

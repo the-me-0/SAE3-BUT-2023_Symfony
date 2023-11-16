@@ -1,0 +1,141 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Batiments{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="/assets/css/home.css">
+{% endblock %}
+
+{% set page_title = 'SmartCampus - Salles Management' %}
+
+{% block body %}
+    {% set trans_day_hash = { "Monday": "Lundi", "Tuesday": "Mardi", "Wednesday": "Mercredi", "Thursday": "Jeudi", "Friday": "Vendredi", "Saturday": "Samedi", "Sunday": "Dimanche"} %}
+    {% set trans_month_hash = { "January": "Janvier", "February": "Février", "March": "Mars", "April": "Avril","May": "Mai", "June": "Juin", "July": "Juillet", "June": "Juin", "July": "Juillet", "August": "Août", "Spetember": "Septembre", "October": "Octobre", "November": "Novembre", "December": "Décembre"} %}
+    <script src="/assets/js/weather.js"></script>
+    <div class="bg-image">
+        <div id="background_container">
+            <div class="title_container">
+                <h1>Smart Campus</h1>
+                <h2 id="localisation">La Rochelle - Université</h2>
+                <div id="info_container">
+                    <img src="/assets/images/informations.png">
+                </div>
+            </div>
+            <div class="parent">
+                <div class="child1">
+                    <h2 class="title">Objectif</h2>
+                    <div class="square_text">Le campus devra être en mesure d’adapter de manière autonome son fonctionnement et ses missions</div>
+                </div>
+                <div class="child1 child2">
+                    <h2 class="title">Mise en place</h2>
+                    <div class="square_text">Le campus universitaire de La Rochelle sera un terrain de validation d'expérimentations approuvées en laboratoires</div>
+                </div>
+            </div>
+            <div class="content_home_page">
+                <div class="header">
+                    <div class="articles">
+                        <div class="row">
+                            <div class="hidden_square">
+                                <div id="square4" class="square">
+                                    <p class="square_top_text">Le bilan carbone de 2019 de</p>
+                                    <p id="year">1,9M</p>
+                                    <p class="square_bottom_text">de tonnes équivalent CO2</p>
+                                </div>
+                                <div id="square1" class="square">
+                                    <p class="square_top_text">Neutre en carbone horizon</p>
+                                    <p id="year">2050</p>
+                                </div>
+                                <div id="square3" class="square">
+                                    <p class="square_top_text">Projet estimé à</p>
+                                    <p id="year">82M</p>
+                                    <p class="square_bottom_text">d'euros</p>
+                                </div>
+                                <div id="square2" class="square">
+                                    <p class="square_top_text">L'habitat représente</p>
+                                    <p id="year">16%</p>
+                                    <p class="square_bottom_text">des émissions de CO2</p>
+                                </div>
+                            </div>
+                            <div class="figure weather">
+                                <h1>Conditions météo</h1>
+                                <h6 id="city">La Rochelle</h6>
+                                <h6 id="date">{{ trans_day_hash["now"|date('l')]}} {{ "now"|date('j') }} {{ trans_month_hash["now"|date('F')]}} {{ "now"|date('Y') }}</h6>
+                                {% if statusCode == 200 %}
+                                    {% if data.weather[0].main == 'Rain' %}
+                                        <div class="icon rainy">
+                                            <div class="cloud"></div>
+                                            <div class="rain"></div>
+                                        </div>
+                                    {% elseif data.weather[0].main == 'Clear' %}
+                                        <div class="icon sunny">
+                                            <div class="sun">
+                                                <div class="rays"></div>
+                                            </div>
+                                        </div>
+                                    {% elseif data.weather[0].main == 'Clouds' %}
+                                        <div class="icon cloudy">
+                                            <div class="cloud"></div>
+                                            <div class="cloud"></div>
+                                        </div>
+                                    {% elseif data.weather[0].main == 'Thunderstorm' %}
+                                        <div class="icon thunder-storm">
+                                            <div class="cloud"></div>
+                                            <div class="lightning">
+                                                <div class="bolt"></div>
+                                                <div class="bolt"></div>
+                                            </div>
+                                        </div>
+                                    {% elseif data.weather[0].main == 'Snow' %}
+                                        <div class="icon flurries">
+                                            <div class="cloud"></div>
+                                            <div class="snow">
+                                                <div class="flake"></div>
+                                                <div class="flake"></div>
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        <div class="icon cloudy">
+                                            <div class="cloud"></div>
+                                            <div class="cloud"></div>
+                                        </div>
+                                    {% endif %}
+                                    <div id="home_temp">
+                                        <p id="temp">{{ data.main.temp }}°</p>
+                                    </div>
+                                    <div id="hum">
+                                        <div class="info_data">
+                                            <img src="/assets/images/weather/hum1.png">
+                                            <p>{{ data.main.humidity }}% d'humidité</p>
+                                        </div>
+                                        <div class="info_data">
+                                            <img src="/assets/images/weather/co2.png">
+                                            <p>{{ gaz.list[0].components.co }} ppm</p>
+                                        </div>
+                                    </div>
+                                    <div id="air_quality">
+                                        <p>Qualité de l'air</p>
+                                        {% if gaz.list[0].main.aqi == 1 %}
+                                            <div style="background:#88C03C;">BON</div>
+                                        {% elseif gaz.list[0].main.aqi == 2 %}
+                                            <div style="background:#EEBE1C;">MOYEN</div>
+                                        {% elseif gaz.list[0].main.aqi == 3 %}
+                                            <div style="background:#F27E2F;">DÉGRADÉ</div>
+                                        {% elseif gaz.list[0].main.aqi == 4 %}
+                                            <div style="background:#E84B4F;">MAUVAIS</div>
+                                        {% elseif gaz.list[0].main.aqi == 5 %}
+                                            <div style="background:#895D9D;">TRÈS MAUVAIS</div>
+                                        {% else %}
+                                            <p>Aucune information</p>
+                                        {% endif %}
+                                    </div>
+                                {% else %}
+                                    <H6>Météo indisponible</H6>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/assets/css/style.css">
+        {% block style %}{% endblock %}
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:500&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Exo&display=swap" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+        <title>{% if page_title is defined %} {{ page_title }}{% endif %}</title>
+    </head>
+    <body>
+        <header>
+            <a class="logo" href="/"><img src="/assets/images/logo-iut.png" alt="logo de l'iut de La Rochelle" width="18%"></a>
+            {% for message in app.flashes('notice') %}
+                {% if loop.index0 < 2 %}
+                    <div class="flash-notice">
+                        {{ message }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+            {% for message in app.flashes('error') %}
+                {% if loop.index0 < 2 %}
+                    <div class="flash-error">
+                        {{ message }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+            {% for message in app.flashes('error') %}
+                <div class="flash-error">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            <nav class="navbar">
+                <a class="nav-link nav-link-ltr" href="/">Accueil</a>
+                <a class="nav-link nav-link-ltr" href="/liste_batiments">Données</a>
+                {% if is_granted('ROLE_USER') %}
+                    {% if is_granted('ROLE_SV') %}
+                    <a class="nav-link nav-link-ltr" href="/dashboard">Dashboard</a>
+                    {% endif %}
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a class="nav-link nav-link-ltr" href="/admin">Gestion utilisateurs</a>
+                    {% endif %}
+                    <div class="profile">
+                        <div class="profile-content">
+                            <a href="/profil" class="username">{{ app.user.username|upper }}</a>
+                            <a href="/logout" class="signout">
+                                <img src="/assets/images/signout.png" width="15px">
+                                <p>Se déconnecter</p>
+                            </a>
+                        </div>
+                        <a href="/profil"><img src="/assets/images/user.png" alt="user" width="40px"></a>
+                    </div>
+                {% else %}
+                    <a class="nav-link nav-link-ltr" href="/login">Connexion</a>
+                {% endif %}
+            </nav>
+        </header>
+    {% block body %}{% endblock %}
+    </body>
+</html>

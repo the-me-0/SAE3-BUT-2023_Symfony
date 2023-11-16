@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SA - Nouveau{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="/assets/css/form.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/dashboard_edit.css">
+{% endblock %}
+
+{% set page_title = 'SmartCampus - Management' %}
+
+{% block body %}
+    <p class="route">
+    <a href='/liste_batiments'> Liste des bâtiments </a> >
+    <a href='/batiment-{{facility.id}}'> Batiment {{facility.name}} </a> >
+    <a href='/batiment-{{facility.id}}/salle-{{ room.id }}'> Salle {{room.name}} </a> >
+    </p>
+    <div class="form">
+        <h6>Ajouter un système d'acquisition à la salle {{room.name}}</h6>
+        {{ form_start(form) }}
+            <div class="row">
+                {{ form_label(form.num, 'Nom du SA') }}
+                {{ form_widget(form.num) }}
+            </div>
+            <div class="row">
+                {{ form_label(form.description, 'Description') }}
+                {{ form_widget(form.description) }}
+            </div>
+            <div class="row">
+                {{ form_label(form.tag, 'TAG') }}
+                {{ form_widget(form.tag) }}
+            </div>
+                <p class="form helper row">Le tag est l'identifiant du système d'acquisition pour les appels à l'API</p>
+            <br>
+            <button type="submit" class="submitBtn" onclick="this.classList.add('submitBtn--loading')" style="margin-top: 10px;">
+                <a class="submitBtn__text">Valider</a>
+            </button>
+        {{ form_end(form) }}
+{% endblock %}

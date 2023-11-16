@@ -1,0 +1,334 @@
+*{
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+}
+:root {
+    /* Variable format :
+        --type_(mobile or nothing)_where_childWhere_grandChild_..._attribute_state : ... ;
+        example : 
+        --color_nav_button_background_hover : ... ;
+
+    */
+
+    --color_neumorphism_shadow : rgba(73, 89, 127, 0.275);
+    --color_main : #126cb5;
+    --text_on_color_main: #ffffff;
+
+    /* --- mainpage --- */
+    --color_mainpage_background:#ededed;  /*linear-gradient(#C8DBDE, #91A3A7) */;
+
+    /* --- header --- */
+    --color_header_background:linear-gradient(#196cd8, #115ab9);
+
+    /* --- nav button --- */
+    --color_header_nav_button_background:  #00633B;
+    --color_header_nav_button_background_hover:  rgba(0, 136, 169, 0.5);
+    --color_header_nav_button_text : rgb(255, 255, 255);
+    --color_header_nav_button_text_hover : var(--color_main);
+
+    /* --- Mobile --- */
+            /* nav button */
+    --color_mobile_nav_button_text: #000000;
+    --color_mobile_nav_button_text_focus : var(--color_main);
+            /* nav */
+    --color_mobile_nav_background: var(--color_header_background);
+
+
+    /* simple colors */
+    --red : rgb(255, 89, 83);
+    --orange: rgb(255, 210, 61);
+    --blue :#126cb5;
+}
+
+* {
+
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background:linear-gradient(70deg,#2371b9, #0f4b9a);
+    box-shadow: rgba(121, 148, 212, 0.2) 0px 1rem 2rem ,
+    0px 0px 2px 2px rgba(121, 148, 212, 0.2) inset;
+    padding: 10px;
+    /* position:sticky;*/
+    z-index: 3;
+}
+
+.content {
+    height: 100vh;
+    background: var(--color_mainpage_background);
+    padding : 3%;
+}
+
+.logo{
+    margin-right: auto;
+    margin-left: 15px;
+    display: block;
+
+    height: 50px;
+    width: 50px;
+    line-height: 50px;
+    -moz-border-radius: 90px; /* or 50% */
+    border-radius: 90px; /* or 50% */
+    padding:2px;
+    background-color: rgb(255, 255, 255);
+}
+
+/* --- NAVIGATION --- */
+
+nav {
+    display: flex;
+    align-items: center;
+}
+
+.profile {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile .profile-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    margin-right: 1em;
+}
+
+.profile .profile-content *{
+    text-decoration: none;
+}
+
+.profile .profile-content .username{
+    font-size: 17px;
+    color: #ffffff;
+}
+
+.profile .profile-content .signout {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile .profile-content .signout p{
+    margin-left: 5px;
+    font-size: 1vw;
+}
+
+.profile .profile-content .signout{
+    font-size: 16px;
+    color: #ffffff;
+}
+
+/* --- NAVIGATION ENDS --- */
+
+body{
+    background-color:var(--color_mainpage_background);
+}
+
+.flash-notice{
+    color: #ffffff;
+    margin-right: auto;
+    padding: 1vw;
+    background-color: rgb(0,0,0,0.15);
+    border-radius: 10px;
+}
+
+.flash-error{
+    color: #ffffff;
+    margin-right: auto;
+    padding: 1vw;
+    background-color: rgb(94, 0, 0);
+    border-radius: 10px;
+}
+
+.logo img {
+    margin-left: 3px;
+    margin-top: 8px;
+    width: 100%;
+}
+
+.nav-link {
+    font-size: 17px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #ffffff;
+    padding: 20px 0px;
+    margin: 0px 30px;
+    display: inline-block;
+    position: relative;
+}
+
+.nav-link:hover {
+    opacity: 1;
+    color: #ffffff;
+}
+
+.nav-link:before {
+    transition: 300ms; /* Time of the animation*/
+    height: 3px; /*the thin of the underline*/
+    content: "";
+    position: absolute;
+    background-color: #ffffff;
+
+}
+
+.nav-link-ltr::before {
+    width: 0%;
+    bottom: 10px;
+}
+
+.nav-link-ltr:hover::before {
+    width: 100%;
+}
+
+
+/* Action button */
+.action-button {
+    background-color: var(--color_header_nav_button_background);
+    border: 0;
+    color: white;
+    padding: 4px 20px;
+    cursor: pointer;
+    transition: all 0.1s ease 0s;
+}
+
+.action-button:hover {
+    background-color: var(--color_header_nav_button_background_hover);
+}
+
+.action-button:focus {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+}
+
+.action-button:focus-visible {
+    box-shadow: none;
+}
+
+
+/* Mobile Navigation */
+
+.menu {
+    display: none;
+}
+
+.overlay {
+    height: 100%;
+    width: 0;
+    /* position: fixed; */
+    z-index: 1;
+    right: 0;
+    top: 0;
+    background-color: var(--color_mobile_nav_background);
+    overflow-x: hidden;
+    transition: all 0.5s ease 0s;
+}
+
+.overlay--active {
+    width: 100%;
+}
+
+.overlay__content {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.overlay a {
+    padding: 15px;
+    font-size: 36px;
+    display: block;
+    transition: all 0.3s ease 0s;
+}
+
+.button {
+
+    background-color: var(--color_main);
+
+    padding:1%;
+
+    width:100px;
+
+    border-radius:10px;
+
+    transition: all 0.2s ease-in-out;
+
+    font-family: "Montserrat", sans-serif;
+    text-decoration: none;
+
+    color:var(--text_on_color_main);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button2 {
+    text-decoration: none;
+}
+
+
+.button:hover{
+    -webkit-transform: scale(1.1);
+}
+
+
+.overlay a:hover,
+.overlay a:focus {
+    color: var(--color_mobile_nav_button_text_focus);
+}
+.overlay .close {
+    position: absolute;
+    top: 20px;
+    right: 45px;
+    font-size: 60px;
+    color: var(--color_mobile_nav_button_text_focus);
+    cursor: pointer;
+}
+
+/* Display the route over the dashboards in "Données" to return in previous pages */
+
+.route {
+    margin-top: 2%;
+    margin-left: 2%;
+}
+.route a{
+    text-decoration: none;
+    color: black;
+}
+
+.route a:hover{
+    transition: .2s linear;
+    color:var(--blue)
+}
+
+
+@media screen and (max-height: 450px) {
+    .overlay a {
+        font-size: 20px;
+    }
+    .overlay .close {
+        font-size: 40px;
+        top: 15px;
+        right: 35px;
+    }
+}
+
+@media only screen and (max-width: 750px) {
+    .nav__links,
+    .cta {
+        display: none;
+    }
+    .menu {
+        display: initial;
+    }
+}

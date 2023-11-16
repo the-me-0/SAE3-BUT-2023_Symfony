@@ -1,0 +1,56 @@
+*{
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+}
+.viewer_content a{
+    text-decoration: none;
+    margin-right: 3vw;
+    margin-left: 3vw;
+    margin-bottom: 3vh;
+}
+
+
+.room{
+    background-color: white;
+    padding: 3vh 3.5vw;
+    border-radius: 10px;
+    transition: all 0.3s ease 0s;
+}
+
+.room:hover{
+    -webkit-transform:scale(1.05);
+    box-shadow: 3px 2px 2px #1E1E1E;
+}
+
+h6{
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    font-size: 1em;
+    color: black;
+}
+
+.viewer_content{
+    padding: 5vh;
+    height: auto;
+    display: flex;
+    justify-content: center;
+}
+
+@media only screen and (max-width: 750px) {
+    .viewer_content{
+        flex-direction: column;
+        align-items: center;
+    }
+    .room{
+        width: 50vw;
+    }
+    .room:hover{
+        box-shadow: none;
+        -webkit-transform:scale(1);
+    }
+}
+
+

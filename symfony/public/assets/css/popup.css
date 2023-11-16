@@ -1,0 +1,169 @@
+/*popup*/
+.popup{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#modal{
+    position: fixed;
+    z-index: 99999;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: none;
+    transition: all 1s ease 0s;
+}
+
+#modal.open{
+    display: block;
+}
+
+#modal .mask{
+    position: absolute;
+    background: black;
+    opacity: 0.6;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+#modal .container{
+    position: relative;
+    background: white;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    width: 40vw;
+    height: auto;
+    min-height: 50px;
+    border-radius: 10px;
+    padding: 2vw;
+}
+
+#modal .container a.close{
+    position: absolute;
+    right: 5%;
+    top:4%;
+    color: #444;
+    font-size: 30px;
+    text-decoration: none;
+}
+#modal .container a.close:hover{
+    color: black;
+}
+
+
+.form_container{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form{
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.form a{
+    text-decoration: none;
+}
+
+.form h6{
+    font-size: 1.5vw;
+    margin-bottom: 1.3vw;
+}
+
+
+.name, .sector{
+    width: auto;
+}
+
+.bat{
+    display: flex;
+    flex-direction: row;
+}
+
+.nb{
+    width: 10vw;
+}
+
+.norm{
+    width: 20vw;
+}
+
+.grand{
+    width: 32vw;
+}
+
+.adresse{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+
+.valider:hover{
+    -webkit-transform:scale(1.05);
+    box-shadow: 3px 2px 2px #1E1E1E;
+}
+
+.inline, .nbStreet{
+    display: flex;
+    flex-direction: row;
+}
+
+.valider{
+    margin-top: 1vw;
+    background-color: red;
+    color: #1E1E1E;
+    padding: 1vw 3vw 1vw 3vw;
+    border-radius: 10px;
+    font-size: 1vw;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 750px) {
+    #modal .container{
+        width: 80vw;
+        height: 60vw;
+        padding: 2vw;
+    }
+    .form input, select{
+        margin: 1vw;
+        border: 3px solid #555;
+        border-radius: 10px;
+        padding: 1.5vw;
+        font-family: "Montserrat", sans-serif;
+        font-weight: 500;
+        font-size: 1vw;
+    }
+    .form{
+        height: 100%;
+        width: 100%;
+    }
+    .form input{
+        width: 40vw;
+        height: 8vw;
+        font-size: 2vw;
+    }
+    .form h6{
+        font-size: 5vw;
+        margin-bottom: 5vw;
+    }
+    .valider{
+        margin-top: 2vw;
+        padding: 2vw 6vw 2vw 6vw;
+        font-size: 2vw;
+    }
+}

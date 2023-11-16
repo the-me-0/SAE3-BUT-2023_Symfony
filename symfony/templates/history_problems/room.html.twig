@@ -1,0 +1,165 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Batiment - Nouveau{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="/assets/css/history.css">
+    <link rel="stylesheet" href="/assets/css/dashboard_base.css">
+    <link rel="stylesheet" href="/assets/css/dashboard_edit.css">
+{% endblock %}
+
+{#{% set page_title = 'Problèmes - Batiment ' .  {{facility.getName()}}  %} #}
+
+{% block body %}
+ <p class="route">
+    <a href='/liste_batiments'> Liste des bâtiments </a> >
+    <a href='/batiment-{{facility.id}}'> Batiment {{facility.name}} </a> >
+    <a href='/batiment-{{facility.id}}/salle-{{ room.id }}'> Salle {{room.name}} </a> >
+    <a href='/batiment-{{facility.id}}/salle-{{room.id}}/historique_probleme'> Historique des problemes </a> >
+</p>
+
+<div class="nav_buttons">
+    {% if is_granted('ROLE_SV') %}
+        <a class='list_button' href='/batiment-{{facility.id}}/salle-{{room.id}}'/> Quitter historique des problemes </a>
+    {% endif %}
+</div>
+<div class="content">
+    <div class="row_container score">
+        <div id="history_identite" class="column_container">
+            <div class="information_history">
+                <img class="info_icon_history" src="/assets/images/information.png">
+                <p class="info_text_history">
+                Le score permet de savoir le taux de problèmes dans la salle. Plus ce nombre est élevé moins il y a eu de problèmes.
+                </p>
+            </div>
+            <div class="room_name">
+                <h1> {{ room.getName() }} </h1>
+            </div>
+            <div class="facility_name">
+                <h1> {{ facility.getName() }} </h1>
+            </div>
+            {% if score <= 25 %}
+                <div class="score_number red">
+            {% elseif score <= 50 %}
+                <div class="score_number orange">
+            {% elseif score <= 75 %}
+                <div class="score_number yellow">
+            {% elseif score <= 100 %}
+                <div class="score_number green">
+            {% else %}
+                <div class="score_number white">
+            {% endif %}
+                <h2> {{ score }} / 100 </h2>
+            </div>
+        
+        </div>
+        <div class="objective column_container">
+            <div class="column_content">
+                <h1 class="dashboard_title">Objectifs de la salle</h1>
+                <div class="objective_info">
+                    <div class="objective_div">
+                        <img id="temp_img" src="/assets/images/weather/temp.png">
+                        <p id="temp_objective" class="information_text">{{objective.temperature}} °C</p>
+                    </div>
+                    <div class="objective_div">
+                        <img id="hum_img" src="/assets/images/weather/hum2.png">
+                        <p id="hum_objective" class="information_text">{{objective.humidity}} %</p>
+                    </div>
+                    <div class="objective_div">
+                        <img id="co2_img" src="/assets/images/weather/co2.png">
+                        <p id="co2_objective" class="information_text"> {{objective.eCO2}} ppm</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="column_container liste_rooms">
+        <div class="column_content">
+            <div class="boxes_history">
+                <div id="box" class="box_temp">
+                    <div class="box_header">
+                        <h1 class="box_title">Température</h1>
+                        <h2 class="box_hour"> {{ totals["temp"] }} </h2>
+                    </div>
+                    <div class="box_content">
+                        {% for alert in temperature_alerts %}
+                        <div class="row_incident">
+                            <div class="date">
+                                <img id="calendar_img" src="/assets/images/calendar.png">
+                                <p> {{ alert.getDateDeb().format('d-m-Y') }}</p>
+                            </div>
+                            <div class="hours_time">
+                                <div class="hours">
+                                    <h2 class="start"> {{ alert.getDateDeb().format('H') }}h{{ alert.getDateDeb().format('i') }} </h2>
+                                    <img id="forward_img" src="/assets/images/forward.png">
+                                    <h2 class="end"> {{ alert.getDateFin().format('H') }}h{{ alert.getDateFin().format('i') }} </h2>
+                                </div>
+                                <div class="duration"> 
+                                    <img id="hourglass_img" src="/assets/images/hourglass.png">
+                                    <h2> {{ alert.getDuration().format('%Hh%I') }} </h2>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div id="box" class="box_hum">
+                    <div class="box_header">
+                        <h1 class="box_title">Humidité</h1>
+                        <h2 class="box_hour"> {{ totals["hum"] }} </h2>
+                    </div>
+                    <div class="box_content">
+                        {% for alert in humidity_alerts %}
+                        <div class="row_incident">
+                            <div class="date">
+                                <img id="calendar_img" src="/assets/images/calendar.png">
+                                <p> {{ alert.getDateDeb().format('d-m-Y') }}</p>
+                            </div>
+                            <div class="hours_time">
+                                <div class="hours">
+                                    <h2 class="start"> {{ alert.getDateDeb().format('H') }}h{{ alert.getDateDeb().format('i') }} </h2>
+                                    <img id="forward_img" src="/assets/images/forward.png">
+                                    <h2 class="end"> {{ alert.getDateFin().format('H') }}h{{ alert.getDateFin().format('i') }} </h2>
+                                </div>
+                                <div class="duration"> 
+                                    <img id="hourglass_img" src="/assets/images/hourglass.png">
+                                    <h2> {{ alert.getDuration().format('%Hh%I') }} </h2>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div id="box" class="box_co2">
+                    <div class="box_header">
+                        <h1 class="box_title">CO2</h1>
+                        <h2 class="box_hour"> {{ totals["co2"] }} </h2>
+                    </div>
+                    <div class="box_content">
+                        {% for alert in co2_alerts %}
+                        <div class="row_incident">
+                            <div class="date">
+                                <img id="calendar_img" src="/assets/images/calendar.png">
+                                <p> {{ alert.getDateDeb().format('d-m-Y') }}</p>
+                            </div>
+                            <div class="hours_time">
+                                <div class="hours">
+                                    <h2 class="start"> {{ alert.getDateDeb().format('H') }}h{{ alert.getDateDeb().format('i') }} </h2>
+                                    <img id="forward_img" src="/assets/images/forward.png">
+                                    <h2 class="end"> {{ alert.getDateFin().format('H') }}h{{ alert.getDateFin().format('i') }} </h2>
+                                </div>
+                                <div class="duration"> 
+                                    <img id="hourglass_img" src="/assets/images/hourglass.png">
+                                    <h2> {{ alert.getDuration().format('%Hh%I') }} </h2>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

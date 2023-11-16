@@ -1,0 +1,8 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+
+
+download_excel:
+    path: /download/excel
+    controller: App\Controller\DashboardController::downloadExcel
